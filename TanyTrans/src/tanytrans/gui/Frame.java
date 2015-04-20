@@ -2,6 +2,7 @@ package tanytrans.gui;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -12,8 +13,14 @@ import javax.swing.JButton;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
+	
+	private CardLayout layout;
+	private JMenuBar menu;
+	private PEmpleados empleados;
 	
 	public Frame() {
 		TPanel contentPane = new TPanel(new ImageIcon(getClass().getResource("/tanytrans/images/Carretera.jpeg")));
@@ -24,17 +31,23 @@ public class Frame extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		CardLayout cl = new CardLayout(20, 20);
-		setLayout(cl);
+		layout = new CardLayout(20, 20);
+		setLayout(layout);
 		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBorderPainted(false);
-		setJMenuBar(menuBar);
+		menu = new JMenuBar();
+		menu.setBorderPainted(false);
+		setJMenuBar(menu);
 		
-		PEmpleados empleados = new PEmpleados();
+		JPanel inicio = new JPanel();
+		JLabel img = new JLabel(new ImageIcon(getClass().getResource("/tanytrans/images/TanytransLogo.png")));
+		inicio.add(img);
+		inicio.setOpaque(false);
+		getContentPane().add(inicio, "INICIO");
+		
+		empleados = new PEmpleados();
 		getContentPane().add(empleados,"EMPLEADOS");
 		
-		ItemMenu(menuBar);
+		ItemMenu(menu);
 		
 		setVisible(true);
 	}
@@ -43,6 +56,12 @@ public class Frame extends JFrame {
 		
 		JMenuItem mntmEmpleados = new JMenuItem("Empleados");
 		menuBar.add(mntmEmpleados);
+		mntmEmpleados.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(getContentPane(), "EMPLEADOS");
+			}
+		});
 		
 		JMenuItem mntmCamiones = new JMenuItem("Camiones");
 		menuBar.add(mntmCamiones);

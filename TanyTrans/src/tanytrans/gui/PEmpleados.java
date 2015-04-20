@@ -74,7 +74,7 @@ public class PEmpleados extends JTabbedPane{
 		gbc.anchor = gbc.CENTER;
 		lista.add(eliminar, gbc);
 		
-		tabla = new JTable(3, 4);
+		tabla = new JTable(10, 4);
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		gbc.gridx = 1;
 		gbc.gridy = 3;
