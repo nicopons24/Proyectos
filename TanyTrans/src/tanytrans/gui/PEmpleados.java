@@ -3,6 +3,7 @@ package tanytrans.gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,12 +21,15 @@ import javax.swing.table.JTableHeader;
 
 public class PEmpleados extends JTabbedPane{
 	
+	private Insets insets;
 	private JPanel lista, nuevo;
 	private JTextField nombre, apellidos, docIde, telefono;
 	private JButton editar, eliminar, guardar, borrar;
 	private JTable tabla;
 
 	public PEmpleados(){
+		
+		insets = new Insets(10, 10, 10, 10);
 		
 		lista();
 		nuevo();
@@ -34,64 +38,35 @@ public class PEmpleados extends JTabbedPane{
 	}
 
 	private void lista() {
-		lista = new JPanel();
-		GridBagLayout gbl = new GridBagLayout();
-		lista.setLayout(gbl);
 		
-		GridBagConstraints gbc = new GridBagConstraints();
-		margenesLista(gbc);
+		lista = new JPanel();
+		lista.setName("LISTA");
+		lista.setLayout(new GridBagLayout());
 		
 		JLabel l = new JLabel("Lista empleados:");
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 0.0;
-		gbc.fill = gbc.NONE;
-		gbc.anchor = gbc.WEST;
-		lista.add(l, gbc);
+		GridBagConstraints gbc_l = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0);
+		lista.add(l, gbc_l);
 		
 		editar = new JButton("Editar");
-		gbc.gridx = 2;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.0;
-		gbc.fill = gbc.NONE;
-		gbc.anchor = gbc.CENTER;
-		lista.add(editar, gbc);
+		GridBagConstraints gbc_editar = new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		lista.add(editar, gbc_editar);
 		
 		eliminar = new JButton("Eliminar");
-		gbc.gridx = 3;
-		gbc.gridy = 1;
-		gbc.gridwidth = 1;
-		gbc.gridheight = 1;
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.0;
-		gbc.fill = gbc.NONE;
-		gbc.anchor = gbc.CENTER;
-		lista.add(eliminar, gbc);
+		GridBagConstraints gbc_eliminar = new GridBagConstraints(2, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		lista.add(eliminar, gbc_eliminar);
 		
-		tabla = new JTable(10, 4);
+		tabla = new JTable();
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		gbc.gridx = 1;
-		gbc.gridy = 3;
-		gbc.gridwidth = 3;
-		gbc.gridheight = 1;
-		gbc.weightx = 1.0;
-		gbc.weighty = 1.0;
-		gbc.fill = gbc.BOTH;
-		gbc.anchor = gbc.CENTER;
+		GridBagConstraints gbc_tabla = new GridBagConstraints(0, 1, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		JScrollPane scroll = new JScrollPane(tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		lista.add(scroll, gbc);
+		lista.add(scroll, gbc_tabla);
 		
-		add("LISTA", lista);
+		add(lista.getName(), lista);
 		
 	}
 	
 	private void nuevo() {
+		
 		nuevo = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
 		nuevo.setLayout(gbl);

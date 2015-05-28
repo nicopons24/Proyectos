@@ -10,10 +10,9 @@ public class TPanel extends JPanel {
 
 private ImageIcon img;
 	
-	public TPanel(ImageIcon i) {
+	public TPanel() {
 		super();
-		img = i;
-		this.setVisible(true);
+		img = new ImageIcon(getClass().getResource("/tanytrans/images/Carretera.jpeg"));
 	}
 	
 	@Override
