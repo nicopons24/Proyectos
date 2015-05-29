@@ -43,7 +43,7 @@ public class PanelNuevoEmpleado extends JPanel {
 		GridBagConstraints gbc_dni = new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		add(dni, gbc_dni);
 		
-		JLabel tel = new JLabel("Telefono:");
+		JLabel tel = new JLabel("Teléfono:");
 		GridBagConstraints gbc_tel = new GridBagConstraints(0, 4, 1, 1, 1.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		add(tel, gbc_tel);
 		
@@ -64,7 +64,8 @@ public class PanelNuevoEmpleado extends JPanel {
 		add(telefono, gbc_telefono);
 		
 		guardar = new JButton("Guardar");
-		GridBagConstraints gbc_guardar = new GridBagConstraints(2, 5, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
+		GridBagConstraints gbc_guardar = new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
 		add(guardar, gbc_guardar);
 	}
+	
 }

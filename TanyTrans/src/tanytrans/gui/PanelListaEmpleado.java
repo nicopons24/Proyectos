@@ -3,13 +3,16 @@ package tanytrans.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
+
+import tanytrans.model.Empleado;
+import tanytrans.tablemodel.ModeloTablaEmpleados;
 
 public class PanelListaEmpleado extends JPanel{
 	
@@ -42,10 +45,15 @@ public class PanelListaEmpleado extends JPanel{
 		add(eliminar, gbc_eliminar);
 		
 		tabla = new JTable();
+		tabla.setName("Empleado");
 		tabla.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		GridBagConstraints gbc_tabla = new GridBagConstraints(0, 1, 3, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		JScrollPane scroll = new JScrollPane(tabla, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scroll, gbc_tabla);
 		
+	}
+	
+	public void setTableModel(ArrayList<Empleado> empleados) {
+		tabla.setModel(new ModeloTablaEmpleados(empleados));
 	}
 }
