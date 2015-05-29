@@ -2,6 +2,7 @@ package tanytrans.gui;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +18,7 @@ public class VentanaPrincipal extends JFrame {
 	
 	private JMenuBar barraMenu;
 	private JMenu menuHome, menuNuevo, menuLista;
-	private JMenuItem nuevoViaje, listaViaje, nuevoCliente, listaCliente, nuevoEmpleado, listaEmpleado, nuevoCamion, listaCamion;
+	private JMenuItem nuevoViaje, listaViaje, nuevoCliente, listaCliente, nuevoEmpleado, listaEmpleado, nuevoCamion, listaCamion, inicio;
 	private PanelListaEmpleado panelListaEmpleados;
 	private PanelListaCliente panelListaClientes;
 	private PanelListaCamion panelListaCamiones;
@@ -31,6 +32,8 @@ public class VentanaPrincipal extends JFrame {
 		setTitle("TANYTRANS");
 		setResizable(true);
 		setSize((int) d.getWidth(),(int) d.getHeight());
+		setMinimumSize(d);
+		setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(new TPanel());
@@ -73,6 +76,16 @@ public class VentanaPrincipal extends JFrame {
 		
 		menuHome = new JMenu("Menu");
 		barraMenu.add(menuHome);
+		
+		inicio = new JMenuItem("Inicio");
+		menuHome.add(inicio);
+		inicio.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ControladorPrincipal.getInstance().cambiaPanel(panelPrincipal.getName());
+				panelPrincipal.getEleccion().setVisible(false);
+			}
+		});
 		
 		menuNuevo = new JMenu("Nuevo");
 		barraMenu.add(menuNuevo);
@@ -152,6 +165,34 @@ public class VentanaPrincipal extends JFrame {
 			}
 		});
 		
+	}
+
+	public PanelListaEmpleado getPanelListaEmpleados() {
+		return panelListaEmpleados;
+	}
+
+	public PanelListaCliente getPanelListaClientes() {
+		return panelListaClientes;
+	}
+
+	public PanelListaCamion getPanelListaCamiones() {
+		return panelListaCamiones;
+	}
+
+	public PanelNuevoEmpleado getPanelNuevoEmpleado() {
+		return panelNuevoEmpleado;
+	}
+
+	public PanelNuevoCliente getPanelNuevoCliente() {
+		return panelNuevoCliente;
+	}
+
+	public PanelNuevoCamion getPanelNuevoCamion() {
+		return panelNuevoCamion;
+	}
+
+	public PanelPrincipal getPanelPrincipal() {
+		return panelPrincipal;
 	}
 
 }

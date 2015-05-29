@@ -16,6 +16,21 @@ private final String[] CAMIONES = {"Marca","Modelo","Matrícula","Nº Chasis"};
 		camiones = c;
 	}
 	
+	public void addRow(Camion c) {
+		camiones.add(c);
+		fireTableRowsInserted(getRowCount(), getRowCount());
+	}
+	
+	public void deleteRow(int rowIndex) {
+		camiones.remove(rowIndex);
+		fireTableRowsDeleted(rowIndex, rowIndex);
+	}
+	
+	public void updateRow(Camion c, int rowIndex) {
+		camiones.set(rowIndex, c);
+		fireTableRowsUpdated(rowIndex, rowIndex);
+	}
+	
 	@Override
 	public int getRowCount() {
 		return camiones.size();
@@ -51,6 +66,10 @@ private final String[] CAMIONES = {"Marca","Modelo","Matrícula","Nº Chasis"};
 			break;
 		}
 		return o;
+	}
+
+	public ArrayList<Camion> getCamiones() {
+		return camiones;
 	}
 
 }

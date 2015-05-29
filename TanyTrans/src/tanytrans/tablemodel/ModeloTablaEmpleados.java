@@ -16,6 +16,16 @@ public class ModeloTablaEmpleados extends AbstractTableModel {
 		empleados = e;
 	}
 	
+	public void addRow(Empleado e) {
+		empleados.add(e);
+		fireTableRowsInserted(getRowCount(), getRowCount());
+	}
+	
+	public void deleteRow(int rowIndex) {
+		empleados.remove(rowIndex);
+		fireTableRowsDeleted(rowIndex, rowIndex);
+	}
+	
 	@Override
 	public int getRowCount() {
 		return empleados.size();

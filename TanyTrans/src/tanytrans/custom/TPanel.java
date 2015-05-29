@@ -12,6 +12,7 @@ private ImageIcon img;
 	
 	public TPanel() {
 		super();
+		setLayout(null);
 		img = new ImageIcon(getClass().getResource("/tanytrans/images/Carretera.jpeg"));
 	}
 	

@@ -16,6 +16,16 @@ public class ModeloTablaClientes extends AbstractTableModel {
 		clientes = c;
 	}
 	
+	public void addRow(Cliente c) {
+		clientes.add(c);
+		fireTableRowsInserted(getRowCount(), getRowCount());
+	}
+	
+	public void deleteRow(int rowIndex) {
+		clientes.remove(rowIndex);
+		fireTableRowsDeleted(rowIndex, rowIndex);
+	}
+	
 	@Override
 	public int getRowCount() {
 		return clientes.size();
