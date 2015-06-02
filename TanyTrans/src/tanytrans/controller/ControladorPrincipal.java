@@ -50,6 +50,63 @@ public class ControladorPrincipal {
 		layout.show(vPrincipal.getPanelPrincipal().getEleccion(), panel);
 	}
 	
+	public void datosCamion(int selectedIndex) {
+		Camion c = vPrincipal.getPanelListaCamiones().getTableModel().getCamiones().get(selectedIndex);
+		vPrincipal.getPanelListaCamiones().setDatos(c);
+	}
+	
+	public void datosCliente(int selectedIndex) {
+		Cliente c = vPrincipal.getPanelListaClientes().getTableModel().getClientes().get(selectedIndex);
+		vPrincipal.getPanelListaClientes().setDatos(c);
+	}
+	
+	public void datosEmpleado(int selectedIndex) {
+		Empleado e = vPrincipal.getPanelListaEmpleados().getTableModel().getEmpleados().get(selectedIndex);
+		vPrincipal.getPanelListaEmpleados().setDatos(e);
+	}
+	
+	public void actualizaCamion(int selectedIndex) {
+		Camion c = vPrincipal.getPanelListaCamiones().getTableModel().getCamiones().get(selectedIndex);
+		Camion nuevo = vPrincipal.getPanelListaCamiones().getDatos();
+		c.setMarca(nuevo.getMarca());
+		c.setModelo(nuevo.getModelo());
+		c.setMatricula(nuevo.getMatricula());
+		c.setChasis(nuevo.getChasis());
+		vPrincipal.getPanelListaCamiones().getTableModel().updateRow(c, selectedIndex);
+	}
+	
+	public void actualizaCliente(int selectedIndex) {
+		Cliente c = vPrincipal.getPanelListaClientes().getTableModel().getClientes().get(selectedIndex);
+		Cliente nuevo = vPrincipal.getPanelListaClientes().getDatos();
+		c.setNombre(nuevo.getNombre());
+		c.setDireccion(nuevo.getDireccion());
+		c.setTelefono1(nuevo.getTelefono1());
+		c.setTelefono2(nuevo.getTelefono2());
+		vPrincipal.getPanelListaClientes().getTableModel().updateRow(c, selectedIndex);
+	}
+	
+	public void actualizaEmpleado(int selectedIndex) {
+		Empleado e = vPrincipal.getPanelListaEmpleados().getTableModel().getEmpleados().get(selectedIndex);
+		Empleado nuevo = vPrincipal.getPanelListaEmpleados().getDatos();
+		e.setNombre(nuevo.getNombre());
+		e.setApellidos(nuevo.getApellidos());
+		e.setDni(nuevo.getDni());
+		e.setTelefono(nuevo.getTelefono());
+		vPrincipal.getPanelListaEmpleados().getTableModel().updateRow(e, selectedIndex);
+	}
+	
+	public void eliminaCamion(int selectedIndex) {
+		vPrincipal.getPanelListaCamiones().getTableModel().deleteRow(selectedIndex);
+	}
+	
+	public void eliminaCliente(int selectedIndex) {
+		vPrincipal.getPanelListaClientes().getTableModel().deleteRow(selectedIndex);
+	}
+	
+	public void eliminaEmpleado(int selectedIndex) {
+		vPrincipal.getPanelListaEmpleados().getTableModel().deleteRow(selectedIndex);
+	}
+	
 	private void cargaCamiones() throws SQLException {
 		ArrayList<Camion> camiones = modeloCamion.consultaCamiones();
 		vPrincipal.getPanelListaCamiones().setTableModel(camiones);

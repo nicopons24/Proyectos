@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import tanytrans.model.Cliente;
 import tanytrans.model.Empleado;
 
 public class ModeloTablaEmpleados extends AbstractTableModel {
@@ -24,6 +25,11 @@ public class ModeloTablaEmpleados extends AbstractTableModel {
 	public void deleteRow(int rowIndex) {
 		empleados.remove(rowIndex);
 		fireTableRowsDeleted(rowIndex, rowIndex);
+	}
+	
+	public void updateRow(Empleado e, int rowIndex) {
+		empleados.set(rowIndex, e);
+		fireTableRowsUpdated(rowIndex, rowIndex);
 	}
 	
 	@Override
@@ -61,6 +67,10 @@ public class ModeloTablaEmpleados extends AbstractTableModel {
 			break;
 		}
 		return o;
+	}
+
+	public ArrayList<Empleado> getEmpleados() {
+		return empleados;
 	}
 
 }

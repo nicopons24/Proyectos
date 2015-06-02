@@ -166,7 +166,7 @@ public class PanelPrincipal extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal frame = ControladorPrincipal.getInstance().getvPrincipal();
-				//ControladorPrincipal.getInstance().cambiaPanel(frame.getPanelNuevoViaje().getName());
+				ControladorPrincipal.getInstance().cambiaPanel(frame.getPanelNuevoViaje().getName());
 			}
 		});
 
@@ -214,9 +214,9 @@ public class PanelPrincipal extends JPanel {
 
 	private void redimensionaLogo() {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		d.setSize(d.getWidth() / 2, d.getWidth() / 8);
+		d.setSize(d.getWidth() / 2, d.getWidth() / 9);
 		Image i = logo.getImage();
-		i = i.getScaledInstance((int) d.getWidth() - 80, (int) d.getHeight(), Image.SCALE_SMOOTH);
+		i = i.getScaledInstance((int) d.getWidth() - 50, (int) d.getHeight(), Image.SCALE_SMOOTH);
 		logo.setImage(i);
 	}
 

@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import tanytrans.controller.ControladorPrincipal;
 import tanytrans.model.Camion;
 import tanytrans.tablemodel.ModeloTablaCamion;
 
@@ -51,9 +52,13 @@ public class PanelListaCamion extends JPanel {
 		editar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelEditar.setVisible(true);
-				guardar.setVisible(true);
-				cancelar.setVisible(true);
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().datosCamion(rowSelected);
+					panelEditar.setVisible(true);
+					guardar.setVisible(true);
+					cancelar.setVisible(true);
+				}
 			}
 		});
 		
@@ -61,6 +66,16 @@ public class PanelListaCamion extends JPanel {
 		eliminar.setEnabled(false);
 		GridBagConstraints gbc_eliminar = new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		add(eliminar, gbc_eliminar);
+		eliminar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().eliminaCamion(rowSelected);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		tabla = new JTable();
 		tabla.getTableHeader().setReorderingAllowed(false);
@@ -72,11 +87,18 @@ public class PanelListaCamion extends JPanel {
 		tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					editar.setEnabled(true);
+					eliminar.setEnabled(true);
+				}
+				else {
+					editar.setEnabled(false);
+					eliminar.setEnabled(false);
+				}
 				panelEditar.setVisible(false);
 				guardar.setVisible(false);
 				cancelar.setVisible(false);
-				editar.setEnabled(true);
-				int rowSelected = tabla.getSelectedRow();
 			}
 		});
 		
@@ -122,6 +144,18 @@ public class PanelListaCamion extends JPanel {
 		cancelar.setVisible(false);
 		GridBagConstraints gbc_cancelar = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
 		add(cancelar, gbc_cancelar);
+		cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		guardar = new JButton("Guardar");
 		guardar.setVisible(false);
@@ -130,12 +164,32 @@ public class PanelListaCamion extends JPanel {
 		guardar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int selectedIndex = tabla.getSelectedRow();
-				Camion c = getTableModel().getCamiones().get(selectedIndex);
-				getTableModel().updateRow(c, selectedIndex);
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().actualizaCamion(rowSelected);
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
 			}
 		});
 		
+	}
+	
+	public void setDatos(Camion c) {
+		marca.setText(c.getMarca());
+		modelo.setText(c.getModelo());
+		matricula.setText(c.getMatricula());
+		chasis.setText(c.getChasis());
+	}
+	
+	public Camion getDatos() {
+		String mar = marca.getText();
+		String mod =modelo.getText();
+		String mat = matricula.getText();
+		String nchas = chasis.getText();
+		return new Camion(-1, mar, mod, mat, nchas);
 	}
 	
 	public void setTableModel(ArrayList<Camion> camiones) {

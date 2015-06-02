@@ -26,6 +26,7 @@ public class VentanaPrincipal extends JFrame {
 	private PanelNuevoCliente panelNuevoCliente;
 	private PanelNuevoCamion panelNuevoCamion;
 	private PanelPrincipal panelPrincipal;
+	private PanelNuevoViaje panelNuevoViaje;
 	
 	public VentanaPrincipal(Dimension d) {
 		
@@ -58,6 +59,9 @@ public class VentanaPrincipal extends JFrame {
 		
 		panelListaCamiones = new PanelListaCamion();
 		getContentPane().add(panelListaCamiones.getName(), panelListaCamiones);
+		
+		panelNuevoViaje = new PanelNuevoViaje();
+		getContentPane().add(panelNuevoViaje.getName(), panelNuevoViaje);
 		
 		panelNuevoCliente = new PanelNuevoCliente();
 		getContentPane().add(panelNuevoCliente.getName(), panelNuevoCliente);
@@ -95,7 +99,7 @@ public class VentanaPrincipal extends JFrame {
 		nuevoViaje.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ControladorPrincipal.getInstance().cambiaPanel(panelNuevoViaje.getName());
+				ControladorPrincipal.getInstance().cambiaPanel(panelNuevoViaje.getName());
 			}
 		});
 		
@@ -193,6 +197,10 @@ public class VentanaPrincipal extends JFrame {
 
 	public PanelPrincipal getPanelPrincipal() {
 		return panelPrincipal;
+	}
+
+	public PanelNuevoViaje getPanelNuevoViaje() {
+		return panelNuevoViaje;
 	}
 
 }

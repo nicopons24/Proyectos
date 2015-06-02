@@ -17,6 +17,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import tanytrans.controller.ControladorPrincipal;
+import tanytrans.model.Camion;
 import tanytrans.model.Empleado;
 import tanytrans.tablemodel.ModeloTablaEmpleados;
 
@@ -51,9 +53,13 @@ public class PanelListaEmpleado extends JPanel{
 		editar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelEditar.setVisible(true);
-				guardar.setVisible(true);
-				cancelar.setVisible(true);
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().datosEmpleado(rowSelected);
+					panelEditar.setVisible(true);
+					guardar.setVisible(true);
+					cancelar.setVisible(true);
+				}
 			}
 		});
 		
@@ -61,6 +67,16 @@ public class PanelListaEmpleado extends JPanel{
 		eliminar.setEnabled(false);
 		GridBagConstraints gbc_eliminar = new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		add(eliminar, gbc_eliminar);
+		eliminar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().eliminaEmpleado(rowSelected);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		tabla = new JTable();
 		tabla.getTableHeader().setReorderingAllowed(false);
@@ -72,11 +88,18 @@ public class PanelListaEmpleado extends JPanel{
 		tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					editar.setEnabled(true);
+					eliminar.setEnabled(true);
+				}
+				else {
+					editar.setEnabled(false);
+					eliminar.setEnabled(false);
+				}
 				panelEditar.setVisible(false);
 				guardar.setVisible(false);
 				cancelar.setVisible(false);
-				editar.setEnabled(true);
-				int rowSelected = tabla.getSelectedRow();
 			}
 		});
 		
@@ -122,12 +145,52 @@ public class PanelListaEmpleado extends JPanel{
 		cancelar.setVisible(false);
 		GridBagConstraints gbc_cancelar = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
 		add(cancelar, gbc_cancelar);
+		cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		guardar = new JButton("Guardar");
 		guardar.setVisible(false);
 		GridBagConstraints gbc_guardar = new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		add(guardar, gbc_guardar);
+		guardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().actualizaEmpleado(rowSelected);
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
+			}
+		});
 	
+	}
+	
+	public void setDatos(Empleado e) {
+		nombre.setText(e.getNombre());
+		apellidos.setText(e.getApellidos());
+		dni.setText(e.getDni());
+		telefono.setText(e.getTelefono()+"");
+	}
+	
+	public Empleado getDatos() {
+		String nom = nombre.getText();
+		String ape = apellidos.getText();
+		String ide = dni.getText();
+		String tel = telefono.getText();
+		return new Empleado(-1, nom, ape, ide, Integer.parseInt(tel));
 	}
 	
 	public void setTableModel(ArrayList<Empleado> empleados) {

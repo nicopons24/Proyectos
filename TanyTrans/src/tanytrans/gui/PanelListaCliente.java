@@ -17,6 +17,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import tanytrans.controller.ControladorPrincipal;
 import tanytrans.model.Cliente;
 import tanytrans.tablemodel.ModeloTablaClientes;
 
@@ -51,9 +52,13 @@ public class PanelListaCliente extends JPanel {
 		editar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelEditar.setVisible(true);
-				guardar.setVisible(true);
-				cancelar.setVisible(true);
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().datosCliente(rowSelected);
+					panelEditar.setVisible(true);
+					guardar.setVisible(true);
+					cancelar.setVisible(true);
+				}
 			}
 		});
 		
@@ -61,6 +66,16 @@ public class PanelListaCliente extends JPanel {
 		eliminar.setEnabled(false);
 		GridBagConstraints gbc_eliminar = new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0);
 		add(eliminar, gbc_eliminar);
+		eliminar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().eliminaCliente(rowSelected);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		tabla = new JTable();
 		tabla.getTableHeader().setReorderingAllowed(false);
@@ -72,11 +87,18 @@ public class PanelListaCliente extends JPanel {
 		tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					editar.setEnabled(true);
+					eliminar.setEnabled(true);
+				}
+				else {
+					editar.setEnabled(false);
+					eliminar.setEnabled(false);
+				}
 				panelEditar.setVisible(false);
 				guardar.setVisible(false);
 				cancelar.setVisible(false);
-				editar.setEnabled(true);
-				int rowSelected = tabla.getSelectedRow();
 			}
 		});
 		
@@ -122,12 +144,52 @@ public class PanelListaCliente extends JPanel {
 		cancelar.setVisible(false);
 		GridBagConstraints gbc_cancelar = new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0);
 		add(cancelar, gbc_cancelar);
+		cancelar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
 		guardar = new JButton("Guardar");
 		guardar.setVisible(false);
 		GridBagConstraints gbc_guardar = new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		add(guardar, gbc_guardar);
+		guardar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowSelected = tabla.getSelectedRow();
+				if (rowSelected != -1) {
+					ControladorPrincipal.getInstance().actualizaCliente(rowSelected);
+					panelEditar.setVisible(false);
+					cancelar.setVisible(false);
+					guardar.setVisible(false);
+					tabla.clearSelection();
+				}
+			}
+		});
 		
+	}
+	
+	public void setDatos(Cliente c) {
+		nombre.setText(c.getNombre());
+		direccion.setText(c.getDireccion());
+		telefono1.setText(c.getTelefono1()+"");
+		telefono2.setText(c.getTelefono2()+"");
+	}
+	
+	public Cliente getDatos() {
+		String nom = nombre.getText();
+		String dir = direccion.getText();
+		String tel1 = telefono1.getText();
+		String tel2 = telefono2.getText();
+		return new Cliente(-1, nom, Integer.parseInt(tel1), Integer.parseInt(tel2), dir);
 	}
 	
 	public void setTableModel(ArrayList<Cliente> clientes) {
