@@ -13,7 +13,7 @@ public class Main {
 	public static void main(String[] args) {
 		boolean isConected = ConexionDB.getInstance().connectDB();
 		if (isConected) ControladorPrincipal.getInstance();
-		else JOptionPane.showMessageDialog(null, "Error de conexiÃ³n", "Tanytrans", JOptionPane.ERROR_MESSAGE);
+		else JOptionPane.showMessageDialog(null, "Error de conexión", "Tanytrans", JOptionPane.ERROR_MESSAGE);
 	}
 
 }

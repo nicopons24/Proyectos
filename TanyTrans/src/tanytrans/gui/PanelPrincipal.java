@@ -40,25 +40,17 @@ public class PanelPrincipal extends JPanel {
 	private void colocaComponentes() {
 
 		JLabel icono = new JLabel(logo);
-		GridBagConstraints gbc_icono = new GridBagConstraints(0, 0, 2, 1, 1.0,
-				0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-				new Insets(0, 0, 0, 0), 0, 0);
+		GridBagConstraints gbc_icono = new GridBagConstraints(0, 0, 2, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0);
 		add(icono, gbc_icono);
 
 		menu = new JPanel();
 		menu.setLayout(new GridBagLayout());
-		JScrollPane scrollMenu = new JScrollPane(menu,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		GridBagConstraints gbc_menu = new GridBagConstraints(0, 1, 1, 1, 1.0,
-				1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				insets, 0, 0);
+		JScrollPane scrollMenu = new JScrollPane(menu, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_menu = new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(scrollMenu, gbc_menu);
 
 		listas = new JButton("Listas >");
-		GridBagConstraints gbc_listas = new GridBagConstraints(0, 0, 1, 1, 1.0,
-				0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-				insets, 0, 0);
+		GridBagConstraints gbc_listas = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		menu.add(listas, gbc_listas);
 		listas.addActionListener(new ActionListener() {
 			@Override
@@ -69,9 +61,7 @@ public class PanelPrincipal extends JPanel {
 		});
 
 		nuevo = new JButton("Nuevo >");
-		GridBagConstraints gbc_nuevo = new GridBagConstraints(0, 3, 1, 1, 1.0,
-				0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-				insets, 0, 0);
+		GridBagConstraints gbc_nuevo = new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		menu.add(nuevo, gbc_nuevo);
 		nuevo.addActionListener(new ActionListener() {
 			@Override
@@ -84,36 +74,28 @@ public class PanelPrincipal extends JPanel {
 		eleccion = new JPanel();
 		eleccion.setLayout(new CardLayout());
 		eleccion.setVisible(false);
-		GridBagConstraints gbc_eleccion = new GridBagConstraints(1, 1, 1, 1,
-				1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-				insets, 0, 0);
+		GridBagConstraints gbc_eleccion = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0);
 		add(eleccion, gbc_eleccion);
 
 		panelListas = new JPanel();
 		panelListas.setName("PanelListas");
-		JScrollPane scrollListas = new JScrollPane(panelListas,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollListas = new JScrollPane(panelListas, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panelListas.setLayout(new GridBagLayout());
 		eleccion.add(panelListas.getName(), scrollListas);
 
 		listaViajes = new JButton("Viajes >");
-		GridBagConstraints gbc_listaViajes = new GridBagConstraints(0, 0, 1, 1,
-				1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_listaViajes = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelListas.add(listaViajes, gbc_listaViajes);
 		listaViajes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaPrincipal frame = ControladorPrincipal.getInstance().getvPrincipal();
-				//ControladorPrincipal.getInstance().cambiaPanel(frame.getPanelListaViajes().getName());
+				ControladorPrincipal.getInstance().cambiaPanel(frame.getPanelListaViajes().getName());
 			}
 		});
 
 		listaClientes = new JButton("Clientes >");
-		GridBagConstraints gbc_listaClientes = new GridBagConstraints(0, 1, 1,
-				1, 1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_listaClientes = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelListas.add(listaClientes, gbc_listaClientes);
 		listaClientes.addActionListener(new ActionListener() {
 			@Override
@@ -124,9 +106,7 @@ public class PanelPrincipal extends JPanel {
 		});
 
 		listaEmpleados = new JButton("Empleados >");
-		GridBagConstraints gbc_listaEmpleados = new GridBagConstraints(0, 2, 1,
-				1, 1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_listaEmpleados = new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelListas.add(listaEmpleados, gbc_listaEmpleados);
 		listaEmpleados.addActionListener(new ActionListener() {
 			@Override
@@ -137,9 +117,7 @@ public class PanelPrincipal extends JPanel {
 		});
 
 		listaCamiones = new JButton("Camiones >");
-		GridBagConstraints gbc_listaCamiones = new GridBagConstraints(0, 3, 1,
-				1, 1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_listaCamiones = new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelListas.add(listaCamiones, gbc_listaCamiones);
 		listaCamiones.addActionListener(new ActionListener() {
 			@Override
@@ -151,16 +129,12 @@ public class PanelPrincipal extends JPanel {
 
 		panelNuevo = new JPanel();
 		panelNuevo.setName("PanelNuevo");
-		JScrollPane scrollNuevo = new JScrollPane(panelNuevo,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollNuevo = new JScrollPane(panelNuevo, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panelNuevo.setLayout(new GridBagLayout());
 		eleccion.add(panelNuevo.getName(), scrollNuevo);
 
 		nuevoViaje = new JButton("Viaje");
-		GridBagConstraints gbc_nuevoViaje = new GridBagConstraints(0, 0, 1, 1,
-				1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_nuevoViaje = new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelNuevo.add(nuevoViaje, gbc_nuevoViaje);
 		nuevoViaje.addActionListener(new ActionListener() {
 			@Override
@@ -171,9 +145,7 @@ public class PanelPrincipal extends JPanel {
 		});
 
 		nuevoCliente = new JButton("Cliente");
-		GridBagConstraints gbc_nuevoCleinte = new GridBagConstraints(0, 1, 1,
-				1, 1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_nuevoCleinte = new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelNuevo.add(nuevoCliente, gbc_nuevoCleinte);
 		nuevoCliente.addActionListener(new ActionListener() {
 			@Override
@@ -185,9 +157,7 @@ public class PanelPrincipal extends JPanel {
 		
 
 		nuevoEmpleado = new JButton("Empleado");
-		GridBagConstraints gbc_nuevoEmpleado = new GridBagConstraints(0, 2, 1,
-				1, 1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		GridBagConstraints gbc_nuevoEmpleado = new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelNuevo.add(nuevoEmpleado, gbc_nuevoEmpleado);
 		nuevoEmpleado.addActionListener(new ActionListener() {
 			@Override
@@ -197,10 +167,8 @@ public class PanelPrincipal extends JPanel {
 			}
 		});
 
-		nuevoCamion = new JButton("CamiÃ³n");
-		GridBagConstraints gbc_nuevoCamion = new GridBagConstraints(0, 3, 1, 1,
-				1.0, 0.0, GridBagConstraints.CENTER,
-				GridBagConstraints.HORIZONTAL, insets, 0, 0);
+		nuevoCamion = new JButton("Camión");
+		GridBagConstraints gbc_nuevoCamion = new GridBagConstraints(0, 3, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0);
 		panelNuevo.add(nuevoCamion, gbc_nuevoCamion);
 		nuevoCamion.addActionListener(new ActionListener() {
 			@Override

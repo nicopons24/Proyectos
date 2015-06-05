@@ -24,8 +24,7 @@ public class ControladorPrincipal {
 	private VentanaPrincipal vPrincipal;
 
 	private ControladorPrincipal() {
-		dimension = new Dimension((int) dimension.getWidth() / 2,
-				(int) dimension.getHeight() / 2);
+		dimension = new Dimension((int) dimension.getWidth() * 2 / 3,(int) dimension.getHeight() * 3 / 4);
 		modeloEmpleado = ModeloEmpleado.getInstance();
 		modeloCliente = ModeloCliente.getInstance();
 		modeloCamion = ModeloCamion.getInstance();
@@ -73,6 +72,8 @@ public class ControladorPrincipal {
 		c.setMatricula(nuevo.getMatricula());
 		c.setChasis(nuevo.getChasis());
 		vPrincipal.getPanelListaCamiones().getTableModel().updateRow(c, selectedIndex);
+		ArrayList<Camion> camiones = vPrincipal.getPanelListaCamiones().getTableModel().getCamiones();
+		vPrincipal.getPanelNuevoViaje().cargaCamiones(camiones);
 	}
 	
 	public void actualizaCliente(int selectedIndex) {
@@ -97,30 +98,40 @@ public class ControladorPrincipal {
 	
 	public void eliminaCamion(int selectedIndex) {
 		vPrincipal.getPanelListaCamiones().getTableModel().deleteRow(selectedIndex);
+		ArrayList<Camion> camiones = vPrincipal.getPanelListaCamiones().getTableModel().getCamiones();
+		vPrincipal.getPanelNuevoViaje().cargaCamiones(camiones);
 	}
 	
 	public void eliminaCliente(int selectedIndex) {
 		vPrincipal.getPanelListaClientes().getTableModel().deleteRow(selectedIndex);
+		ArrayList<Cliente> clientes = vPrincipal.getPanelListaClientes().getTableModel().getClientes();
+		vPrincipal.getPanelNuevoViaje().cargaClientes(clientes);
 	}
 	
 	public void eliminaEmpleado(int selectedIndex) {
 		vPrincipal.getPanelListaEmpleados().getTableModel().deleteRow(selectedIndex);
+		ArrayList<Empleado> empleados = vPrincipal.getPanelListaEmpleados().getTableModel().getEmpleados();
+		vPrincipal.getPanelNuevoViaje().cargaEmpleados(empleados);
 	}
 	
 	private void cargaCamiones() throws SQLException {
 		ArrayList<Camion> camiones = modeloCamion.consultaCamiones();
 		vPrincipal.getPanelListaCamiones().setTableModel(camiones);
+		vPrincipal.getPanelNuevoViaje().cargaCamiones(camiones);
 	}
 	
 	private void cargaEmpleados() throws SQLException {
 		ArrayList<Empleado> empleados = modeloEmpleado.consultaEmpleados();
 		vPrincipal.getPanelListaEmpleados().setTableModel(empleados);
+		vPrincipal.getPanelNuevoViaje().cargaEmpleados(empleados);
 	}
 	
 	private void cargaClientes() throws SQLException {
 		ArrayList<Cliente> clientes = modeloCliente.consultaClientes();
 		vPrincipal.getPanelListaClientes().setTableModel(clientes);
+		vPrincipal.getPanelNuevoViaje().cargaClientes(clientes);
 	}
+	
 
 	public static ControladorPrincipal getInstance() {
 		if (instance == null) instance = new ControladorPrincipal();

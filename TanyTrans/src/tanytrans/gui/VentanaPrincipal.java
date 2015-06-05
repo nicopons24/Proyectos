@@ -2,10 +2,12 @@ package tanytrans.gui;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,9 +29,13 @@ public class VentanaPrincipal extends JFrame {
 	private PanelNuevoCamion panelNuevoCamion;
 	private PanelPrincipal panelPrincipal;
 	private PanelNuevoViaje panelNuevoViaje;
+	private PanelListaViajes panelListaViajes;
 	
 	public VentanaPrincipal(Dimension d) {
 		
+		Image ico = new ImageIcon(getClass().getResource("/tanytrans/images/CamionLogo.png")).getImage();
+		
+		setIconImage(ico.getScaledInstance(200, 200, Image.SCALE_SMOOTH));
 		setTitle("TANYTRANS");
 		setResizable(true);
 		setSize((int) d.getWidth(),(int) d.getHeight());
@@ -38,7 +44,7 @@ public class VentanaPrincipal extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setContentPane(new TPanel());
-		setLayout(new CardLayout(20, 20));
+		getContentPane().setLayout(new CardLayout(20, 20));
 		
 		colocaMenuBar();
 		colocaComponentes();
@@ -59,6 +65,9 @@ public class VentanaPrincipal extends JFrame {
 		
 		panelListaCamiones = new PanelListaCamion();
 		getContentPane().add(panelListaCamiones.getName(), panelListaCamiones);
+		
+		panelListaViajes = new PanelListaViajes();
+		getContentPane().add(panelListaViajes.getName(), panelListaViajes);
 		
 		panelNuevoViaje = new PanelNuevoViaje();
 		getContentPane().add(panelNuevoViaje.getName(), panelNuevoViaje);
@@ -138,7 +147,7 @@ public class VentanaPrincipal extends JFrame {
 		listaViaje.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ControladorPrincipal.getInstance().cambiaPanel(panelListaViajes.getName());
+				ControladorPrincipal.getInstance().cambiaPanel(panelListaViajes.getName());
 			}
 		});
 		
@@ -181,6 +190,10 @@ public class VentanaPrincipal extends JFrame {
 
 	public PanelListaCamion getPanelListaCamiones() {
 		return panelListaCamiones;
+	}
+
+	public PanelListaViajes getPanelListaViajes() {
+		return panelListaViajes;
 	}
 
 	public PanelNuevoEmpleado getPanelNuevoEmpleado() {

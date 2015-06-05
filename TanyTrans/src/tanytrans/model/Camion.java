@@ -22,6 +22,11 @@ public class Camion {
 		this.matricula = matricula;
 		this.chasis = chasis;
 	}
+	
+	@Override
+	public String toString() {
+		return marca+" - "+matricula;
+	}
 
 	public int getIdCamion() {
 		return idCamion;
