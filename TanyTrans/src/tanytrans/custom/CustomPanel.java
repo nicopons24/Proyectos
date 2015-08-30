@@ -6,11 +6,11 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class TPanel extends JPanel {
+public class CustomPanel extends JPanel {
 
 private ImageIcon img;
 	
-	public TPanel() {
+	public CustomPanel() {
 		super();
 		setLayout(null);
 		img = new ImageIcon(getClass().getResource("/tanytrans/images/Carretera.jpeg"));
