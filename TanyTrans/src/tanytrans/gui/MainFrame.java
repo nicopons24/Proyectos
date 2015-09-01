@@ -95,6 +95,12 @@ public class MainFrame extends JFrame {
 		
 		item41 = new JMenuItem("Datos empresa");
 		menu4.add(item41);
+		item41.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().showDatosEmpresa();
+			}
+		});
 		
 		item42 = new JMenuItem("Idioma");
 		menu4.add(item42);
@@ -102,6 +108,10 @@ public class MainFrame extends JFrame {
 
 	public FacturaPanel getPanelFactura() {
 		return panelFactura;
+	}
+
+	public ListaPanel getPanelLista() {
+		return panelLista;
 	}
 
 }
