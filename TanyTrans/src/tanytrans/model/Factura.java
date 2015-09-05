@@ -1,25 +1,36 @@
 package tanytrans.model;
 
+import java.util.ArrayList;
+
 
 public class Factura {
 	
-	private int numFactura, refViaje, idCliente;
+	private int id, numFactura, idCliente;
 	private double importe;
-	private String pago;
-	private String fecha;
+	private String pago, fecha, localidad;
+	private ArrayList<Viaje> viajes;
 
 	public Factura() {
 		
 	}
 
-	public Factura(int numFactura, int refViaje, int idCliente, double importe,
-			String pago, String fecha) {
+	public Factura(int id, int numFactura, int idCliente, double importe,
+			String pago, String fecha, String localidad) {
+		this.id = id;
 		this.numFactura = numFactura;
-		this.refViaje = refViaje;
 		this.idCliente = idCliente;
 		this.importe = importe;
 		this.pago = pago;
 		this.fecha = fecha;
+		this.localidad = localidad;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getNumFactura() {
@@ -28,14 +39,6 @@ public class Factura {
 
 	public void setNumFactura(int numFactura) {
 		this.numFactura = numFactura;
-	}
-
-	public int getRefViaje() {
-		return refViaje;
-	}
-
-	public void setRefViaje(int refViaje) {
-		this.refViaje = refViaje;
 	}
 
 	public int getIdCliente() {
@@ -68,5 +71,21 @@ public class Factura {
 
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+	public ArrayList<Viaje> getViajes() {
+		return viajes;
+	}
+
+	public void setViajes(ArrayList<Viaje> viajes) {
+		this.viajes = viajes;
 	}
 }

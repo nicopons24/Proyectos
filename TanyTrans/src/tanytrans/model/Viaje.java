@@ -2,7 +2,7 @@ package tanytrans.model;
 
 public class Viaje {
 
-	private int refViaje, iva;
+	private int id, refViaje, iva, numFactura;
 	private double precio;
 	private String matricula;
 	
@@ -10,11 +10,21 @@ public class Viaje {
 		
 	}
 
-	public Viaje(int refViaje, int iva, double precio, String matricula) {
+	public Viaje(int id, int refViaje, int iva, int numFactura, double precio, String matricula) {
+		this.id = id;
 		this.refViaje = refViaje;
 		this.iva = iva;
+		this.numFactura = numFactura;
 		this.precio = precio;
 		this.matricula = matricula;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getRefViaje() {
@@ -47,6 +57,14 @@ public class Viaje {
 
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
+	}
+
+	public int getNumFactura() {
+		return numFactura;
+	}
+
+	public void setNumFactura(int numFactura) {
+		this.numFactura = numFactura;
 	}
 	
 }

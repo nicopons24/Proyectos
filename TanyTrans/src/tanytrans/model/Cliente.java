@@ -2,25 +2,27 @@ package tanytrans.model;
 
 public class Cliente {
 
-	private int idCliente, cp, iban;
-	private String nombre, direccion, localidad, pais, num, banco;
+	private int idCliente, cp;
+	private String nombre, direccion, localidad, pais, num;
 	
 	public Cliente() {
 		
 	}
 
-	public Cliente(int idCliente, int cp, int iban, String nombre,
-			String direccion, String localidad, String pais, String num,
-			String banco) {
+	public Cliente(int idCliente, int cp, String nombre,
+			String direccion, String localidad, String pais, String num) {
 		this.idCliente = idCliente;
 		this.cp = cp;
-		this.iban = iban;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.localidad = localidad;
 		this.pais = pais;
 		this.num = num;
-		this.banco = banco;
+	}
+	
+	@Override
+	public String toString() {
+		return nombre;
 	}
 
 	public int getIdCliente() {
@@ -37,14 +39,6 @@ public class Cliente {
 
 	public void setCp(int cp) {
 		this.cp = cp;
-	}
-
-	public int getIban() {
-		return iban;
-	}
-
-	public void setIban(int iban) {
-		this.iban = iban;
 	}
 
 	public String getNombre() {
@@ -86,13 +80,4 @@ public class Cliente {
 	public void setNum(String num) {
 		this.num = num;
 	}
-
-	public String getBanco() {
-		return banco;
-	}
-
-	public void setBanco(String banco) {
-		this.banco = banco;
-	}
-	
 }

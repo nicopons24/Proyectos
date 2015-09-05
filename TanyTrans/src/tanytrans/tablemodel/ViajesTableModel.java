@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 import tanytrans.config.Calculos;
-import tanytrans.model.Factura;
 import tanytrans.model.Viaje;
 
 public class ViajesTableModel extends AbstractTableModel {
@@ -68,6 +67,20 @@ public class ViajesTableModel extends AbstractTableModel {
 	
 	public void setViajeAt(int pos, Viaje v) {
 		viajes.set(pos, v);
+		fireTableDataChanged();
+	}
+	
+	public void removeAllData() {
+		viajes = new ArrayList<Viaje>();
+		fireTableDataChanged();
+	}
+
+	public ArrayList<Viaje> getViajes() {
+		return viajes;
+	}
+
+	public void setViajes(ArrayList<Viaje> viajes) {
+		this.viajes = viajes;
 		fireTableDataChanged();
 	}
 

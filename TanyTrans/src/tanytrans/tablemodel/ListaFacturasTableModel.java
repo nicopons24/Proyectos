@@ -1,9 +1,12 @@
 package tanytrans.tablemodel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import javax.swing.table.AbstractTableModel;
 
+import tanytrans.config.Calculos;
 import tanytrans.model.Factura;
 
 public class ListaFacturasTableModel extends AbstractTableModel {
@@ -38,7 +41,8 @@ public class ListaFacturasTableModel extends AbstractTableModel {
 			o = f.getNumFactura();
 			break;
 		case 1:
-			o = f.getFecha();
+			int i[] = Calculos.getInstance().separateDate(f.getFecha());
+			o = i[2]+"-"+i[1]+"-"+i[0];
 			break;
 		case 2:
 			o = f.getIdCliente();
@@ -63,6 +67,11 @@ public class ListaFacturasTableModel extends AbstractTableModel {
 	public Factura getFacturaAt(int pos) {
 		return facturas.get(pos);
 	}
+	
+	public void setFacturaAt(int pos, Factura f) {
+		facturas.set(pos, f);
+		fireTableDataChanged();
+	}
 
 	public ArrayList<Factura> getFacturas() {
 		return facturas;
@@ -70,6 +79,7 @@ public class ListaFacturasTableModel extends AbstractTableModel {
 
 	public void setFacturas(ArrayList<Factura> facturas) {
 		this.facturas = facturas;
+		fireTableDataChanged();
 	}
 
 }

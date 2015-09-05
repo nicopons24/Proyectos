@@ -28,7 +28,7 @@ public class ViajeFrame extends JDialog {
 	private static final Insets insets = new Insets(10,10,10,10);
 	
 	private boolean editable;
-	private int pos;
+	private int pos, numFactura, id;
 	private Dimension size;
 	private CustomPanel contentPane;
 	private JPanel panel;
@@ -64,6 +64,8 @@ public class ViajeFrame extends JDialog {
 		size = new Dimension((int) parentSize.getWidth()/3,(int) parentSize.getHeight()/3);
 		contentPane = new CustomPanel();
 		editable = true;
+		numFactura = v.getNumFactura();
+		id = v.getId();
 		
 		setTitle("TanyTrans");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/tanytrans/images/CamionLogo.png")));
@@ -132,6 +134,8 @@ public class ViajeFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Viaje v = new Viaje();
+				v.setNumFactura(numFactura);
+				v.setId(id);
 				if (Calculos.getInstance().isNumeric(codigo.getText())) { v.setRefViaje(Integer.parseInt(codigo.getText()));}
 				v.setMatricula(articulo.getText());
 				v.setIva((int) cantidad.getModel().getValue());

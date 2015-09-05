@@ -2,6 +2,9 @@ package tanytrans.gui;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -11,11 +14,6 @@ import javax.swing.JMenuItem;
 import tanytrans.controller.MainController;
 import tanytrans.custom.CustomPanel;
 
-import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class MainFrame extends JFrame {
 	
 	private Dimension size;
@@ -23,6 +21,7 @@ public class MainFrame extends JFrame {
 	private JMenu menu1, menu2, menu3, menu4;
 	private JMenuItem item11, item21, item31, item41, item42;
 	private CustomPanel contentPane;
+	private MainPanel panelPrincipal;
 	private FacturaPanel panelFactura;
 	private ListaPanel panelLista;
 	
@@ -31,7 +30,7 @@ public class MainFrame extends JFrame {
 		contentPane = new CustomPanel();
 		
 		setTitle("TanyTrans");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/tanytrans/images/CamionLogo.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/tanytrans/images/CamionLogo.png")));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setSize(size);
@@ -49,6 +48,9 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void setPanels() {
+		panelPrincipal = new MainPanel();
+		getContentPane().add(MainPanel.NAME, panelPrincipal);
+		
 		panelFactura = new FacturaPanel();
 		getContentPane().add(FacturaPanel.NAME, panelFactura);
 		
@@ -104,6 +106,10 @@ public class MainFrame extends JFrame {
 		
 		item42 = new JMenuItem("Idioma");
 		menu4.add(item42);
+	}
+
+	public MainPanel getPanelPrincipal() {
+		return panelPrincipal;
 	}
 
 	public FacturaPanel getPanelFactura() {
