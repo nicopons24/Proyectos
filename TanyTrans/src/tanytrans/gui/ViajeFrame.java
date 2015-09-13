@@ -14,9 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 
 import tanytrans.config.Calculos;
 import tanytrans.controller.MainController;
@@ -33,8 +31,7 @@ public class ViajeFrame extends JDialog {
 	private CustomPanel contentPane;
 	private JPanel panel;
 	private JLabel lblCod, lblMatricula, lblPrecio, lblIva;
-	private JTextField codigo, articulo, precio;
-	private JSpinner cantidad;
+	private JTextField codigo, articulo, precio, iva;
 	private JButton done, cancel;
 	
 	public ViajeFrame(Dimension parentSize, JFrame frame) {
@@ -66,6 +63,7 @@ public class ViajeFrame extends JDialog {
 		editable = true;
 		numFactura = v.getNumFactura();
 		id = v.getId();
+		this.pos = pos;
 		
 		setTitle("TanyTrans");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/tanytrans/images/CamionLogo.png")));
@@ -88,7 +86,7 @@ public class ViajeFrame extends JDialog {
 		codigo.setText(v.getRefViaje()+"");
 		articulo.setText(v.getMatricula());
 		precio.setText(v.getPrecio()+"");
-		cantidad.setValue(v.getIva());
+		iva.setText(v.getIva()+"");
 	}
 	
 	private void setPanel() {
@@ -116,8 +114,8 @@ public class ViajeFrame extends JDialog {
 		lblIva = new JLabel("Iva:");
 		panel.add(lblIva, new GridBagConstraints(2, 2, 1, 1, 0.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.NONE, insets, 0, 0));
 		
-		cantidad = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
-		panel.add(cantidad, new GridBagConstraints(3, 2, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		iva = new JTextField();
+		panel.add(iva, new GridBagConstraints(3, 2, 1, 1, 1.0, 1.0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		cancel = new JButton("Cancelar");
 		panel.add(cancel, new GridBagConstraints(3, 3, 1, 1, 1.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.NONE, insets, 0, 0));
@@ -135,11 +133,13 @@ public class ViajeFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Viaje v = new Viaje();
 				v.setNumFactura(numFactura);
-				v.setId(id);
-				if (Calculos.getInstance().isNumeric(codigo.getText())) { v.setRefViaje(Integer.parseInt(codigo.getText()));}
+				if (id != -1) {
+					v.setId(id);
+				}
+				v.setRefViaje(codigo.getText());
 				v.setMatricula(articulo.getText());
-				v.setIva((int) cantidad.getModel().getValue());
-				if (Calculos.getInstance().isNumeric(precio.getText())) { v.setPrecio(Double.parseDouble(precio.getText()));}
+				if (Calculos.isNumeric(iva.getText())) {v.setIva(Double.parseDouble(iva.getText())); }
+				if (Calculos.isNumeric(precio.getText())) { v.setPrecio(Double.parseDouble(precio.getText()));}
 				if (editable) {MainController.getInstance().editViajeFactura(pos, v);}
 				else{MainController.getInstance().addViajeFactura(v);}
 				dispose();

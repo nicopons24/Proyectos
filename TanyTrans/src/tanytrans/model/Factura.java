@@ -2,13 +2,15 @@ package tanytrans.model;
 
 import java.util.ArrayList;
 
+import tanytrans.config.Calculos;
+
 
 public class Factura {
 	
 	private int id, numFactura, idCliente;
 	private double importe;
 	private String pago, fecha, localidad;
-	private ArrayList<Viaje> viajes;
+	private ArrayList<Viaje> viajes, delViajes, editViajes, newViajes;
 
 	public Factura() {
 		
@@ -27,6 +29,10 @@ public class Factura {
 
 	public int getId() {
 		return id;
+	}
+	
+	public String getNumFacturaString() {
+		return Calculos.numFacturaFormat(numFactura);
 	}
 
 	public void setId(int id) {
@@ -55,6 +61,10 @@ public class Factura {
 
 	public void setImporte(double importe) {
 		this.importe = importe;
+	}
+	
+	public String getImporteString() {
+		return Calculos.priceFormat(importe);
 	}
 
 	public String getPago() {
@@ -87,5 +97,29 @@ public class Factura {
 
 	public void setViajes(ArrayList<Viaje> viajes) {
 		this.viajes = viajes;
+	}
+
+	public ArrayList<Viaje> getDelViajes() {
+		return delViajes;
+	}
+
+	public void setDelViajes(ArrayList<Viaje> delViajes) {
+		this.delViajes = delViajes;
+	}
+
+	public ArrayList<Viaje> getEditViajes() {
+		return editViajes;
+	}
+
+	public void setEditViajes(ArrayList<Viaje> editViajes) {
+		this.editViajes = editViajes;
+	}
+
+	public ArrayList<Viaje> getNewViajes() {
+		return newViajes;
+	}
+
+	public void setNewViajes(ArrayList<Viaje> newViajes) {
+		this.newViajes = newViajes;
 	}
 }

@@ -3,14 +3,14 @@ package tanytrans.model;
 public class Cliente {
 
 	private int idCliente, cp;
-	private String nombre, direccion, localidad, pais, num;
+	private String nombre, direccion, localidad, pais, num, tel1, tel2;
 	
 	public Cliente() {
 		
 	}
 
 	public Cliente(int idCliente, int cp, String nombre,
-			String direccion, String localidad, String pais, String num) {
+			String direccion, String localidad, String pais, String num, String tel1, String tel2) {
 		this.idCliente = idCliente;
 		this.cp = cp;
 		this.nombre = nombre;
@@ -18,6 +18,8 @@ public class Cliente {
 		this.localidad = localidad;
 		this.pais = pais;
 		this.num = num;
+		this.tel1 = tel1;
+		this.tel2 = tel2;
 	}
 	
 	@Override
@@ -79,5 +81,21 @@ public class Cliente {
 
 	public void setNum(String num) {
 		this.num = num;
+	}
+
+	public String getTel1() {
+		return tel1;
+	}
+
+	public void setTel1(String tel1) {
+		this.tel1 = tel1;
+	}
+
+	public String getTel2() {
+		return tel2;
+	}
+
+	public void setTel2(String tel2) {
+		this.tel2 = tel2;
 	}
 }

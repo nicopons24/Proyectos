@@ -29,7 +29,7 @@ private static final Insets insets = new Insets(10,10,10,10);
 	private CustomPanel contentPane;
 	private JTabbedPane tabbled;
 	private JLabel lblNombre, lblDir, lblCp, lblLocalidad, lblPais, lblTel1, lblTel2, lblFax, lblEmail, lblProp, lblIban, lblBanco, lblNie;
-	private JTextField nombre, dir, cp, localidad, pais, tel1, tel2, fax, email, propietario, iban, banco, nie;
+	private JTextField nombre, dir, cp, localidad, pais, tel1, tel2, fax, email, propietario, iban, banco, num;
 	
 	public DatosEmpresaFrame(Dimension parentSize, JFrame frame) {
 		super(frame, true);
@@ -64,26 +64,20 @@ private static final Insets insets = new Insets(10,10,10,10);
 		JPanel panelBanco = new JPanel(new GridBagLayout());
 		tabbled.add("Datos bancarios", panelBanco);
 		
-		lblProp = new JLabel("Titular:");
-		panelBanco.add(lblProp, new GridBagConstraints(0, 0, 1, 1, 0.0, 1.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
-		propietario = new JTextField(e.getPropietario());
-		panelBanco.add(propietario, new GridBagConstraints(1, 0, 3, 1, 0.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
 		lblBanco = new JLabel("Sucursal:");
-		panelBanco.add(lblBanco, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		panelBanco.add(lblBanco, new GridBagConstraints(0, 1, 1, 1, 0.0, 1.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		banco = new JTextField(e.getBanco());
-		panelBanco.add(banco, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		panelBanco.add(banco, new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		lblIban = new JLabel("IBAN:");
-		panelBanco.add(lblIban, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		panelBanco.add(lblIban, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		iban = new JTextField(e.getIban());
-		panelBanco.add(iban, new GridBagConstraints(3, 1, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		panelBanco.add(iban, new GridBagConstraints(1, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 	
 		JButton save = new JButton("Guardar");
-		panelBanco.add(save, new GridBagConstraints(0, 2, 4, 1, 0.0, 1.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, insets, 0, 0));
+		panelBanco.add(save, new GridBagConstraints(0, 3, 2, 1, 0.0, 1.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, insets, 0, 0));
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
@@ -99,8 +93,9 @@ private static final Insets insets = new Insets(10,10,10,10);
 				e.setPropietario(propietario.getText());
 				e.setIban(iban.getText());
 				e.setBanco(banco.getText());
-				e.setIdEmpresa(nie.getText());
+				e.setIdEmpresa(num.getText());
 				MainController.getInstance().updateDatosEmpresa();
+				dispose();
 			}
 		});
 	}
@@ -152,8 +147,9 @@ private static final Insets insets = new Insets(10,10,10,10);
 				e.setPropietario(propietario.getText());
 				e.setIban(iban.getText());
 				e.setBanco(banco.getText());
-				e.setIdEmpresa(nie.getText());
+				e.setIdEmpresa(num.getText());
 				MainController.getInstance().updateDatosEmpresa();
+				dispose();
 			}
 		});
 	}
@@ -170,11 +166,11 @@ private static final Insets insets = new Insets(10,10,10,10);
 		nombre = new JTextField(MiEmpresa.getInstance().getNombre());
 		panelDatos.add(nombre, new GridBagConstraints(1, 0, 3, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
-		lblNie = new JLabel("NIE:");
+		lblNie = new JLabel("Vat. num:");
 		panelDatos.add(lblNie, new GridBagConstraints(4, 0, 1, 1, 0.0, 1.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
-		nie = new JTextField(e.getIdEmpresa());
-		panelDatos.add(nie, new GridBagConstraints(5, 0, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		num = new JTextField(e.getIdEmpresa());
+		panelDatos.add(num, new GridBagConstraints(5, 0, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		lblDir = new JLabel("Direccion:");
 		panelDatos.add(lblDir, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
@@ -200,8 +196,14 @@ private static final Insets insets = new Insets(10,10,10,10);
 		pais = new JTextField(e.getPais());
 		panelDatos.add(pais, new GridBagConstraints(5, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
+		lblProp = new JLabel("Titular:");
+		panelDatos.add(lblProp, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		
+		propietario = new JTextField(e.getPropietario());
+		panelDatos.add(propietario, new GridBagConstraints(1, 3, 6, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		
 		JButton save = new JButton("Guardar");
-		panelDatos.add(save, new GridBagConstraints(0, 3, 6, 1, 0.0, 1.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, insets, 0, 0));
+		panelDatos.add(save, new GridBagConstraints(0, 4, 6, 1, 0.0, 1.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, insets, 0, 0));
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ev) {
@@ -217,8 +219,9 @@ private static final Insets insets = new Insets(10,10,10,10);
 				e.setPropietario(propietario.getText());
 				e.setIban(iban.getText());
 				e.setBanco(banco.getText());
-				e.setIdEmpresa(nie.getText());
+				e.setIdEmpresa(num.getText());
 				MainController.getInstance().updateDatosEmpresa();
+				dispose();
 			}
 		});
 	}

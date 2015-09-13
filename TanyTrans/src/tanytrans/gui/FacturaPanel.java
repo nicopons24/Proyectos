@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import net.sf.jasperreports.engine.xml.JRExpressionFactory.StringExpressionFactory;
 import tanytrans.config.Calculos;
 import tanytrans.config.Data;
 import tanytrans.controller.MainController;
@@ -45,7 +46,7 @@ public class FacturaPanel extends JPanel {
 	private JComboBox<Cliente> cliente;
 	private JTextField numFactura, localidad, total, iban, banco;
 	private JDateChooser fecha;
-	private JButton addViaje, editViaje, delViaje, save, print, delete;
+	private JButton addViaje, editViaje, delViaje, save, delete;
 	private JTable table;
 
 	public FacturaPanel() {
@@ -54,10 +55,10 @@ public class FacturaPanel extends JPanel {
 		setDatosPanel();
 		setViajesPanel();
 		setResumePanel();
-		loadData();
 	}
 	
 	public void loadData() {
+		cliente.removeAllItems();
 		for (Cliente c: Data.clientes) {
 			cliente.addItem(c);
 		}
@@ -69,10 +70,10 @@ public class FacturaPanel extends JPanel {
 		editable = true;
 		id = f.getId();
 		pos = row;
-		int i[] = Calculos.getInstance().separateDate(f.getFecha());
-		Calendar c = new GregorianCalendar(i[0], i[1], i[2]);
+		String i[] = Calculos.separateDate(f.getFecha());
+		Calendar c = new GregorianCalendar(Integer.parseInt(i[0]), Integer.parseInt(i[1]), Integer.parseInt(i[2]));
 		
-		numFactura.setText(f.getNumFactura()+"");
+		numFactura.setText(f.getNumFacturaString());
 		fecha.setDate(c.getTime());
 		localidad.setText(f.getLocalidad());
 		for (Cliente cl: Data.clientes){
@@ -81,6 +82,7 @@ public class FacturaPanel extends JPanel {
 				break;
 			}
 		}
+		((ViajesTableModel) table.getModel()).removeAllData();
 		((ViajesTableModel) table.getModel()).setViajes(f.getViajes());
 		for (int j = 0; j < Data.PAGOBD.length; j++){
 			if (f.getPago().equals(Data.PAGOBD[j])){
@@ -90,17 +92,16 @@ public class FacturaPanel extends JPanel {
 		}
 		banco.setText(MiEmpresa.getInstance().getBanco());
 		iban.setText(MiEmpresa.getInstance().getIban());
-		addViaje.setEnabled(false);
 	}
 	
 	public void newData() {
 		editable = false;
-		numFactura.setText(Data.getLastnumFactura()+"");
+		numFactura.setText(Calculos.numFacturaFormat(Data.getLastnumFactura()));
+		localidad.setText(Data.LOCALIDAD_DEFAULT);
 		fecha.setDate(Calendar.getInstance().getTime());
 		((ViajesTableModel) table.getModel()).removeAllData();
 		banco.setText(MiEmpresa.getInstance().getBanco());
 		iban.setText(MiEmpresa.getInstance().getIban());
-		addViaje.setEnabled(true);
 	}
 	
 	private void setDatosPanel() {
@@ -176,9 +177,9 @@ public class FacturaPanel extends JPanel {
 				double t = 0;
 				for (int i = 0; i < table.getRowCount(); i++) {
 					Viaje v = ((ViajesTableModel) table.getModel()).getViajeAt(i);
-					t += Calculos.getInstance().calculaImporte(v);
+					t += Calculos.calculaImporte(v);
 				}
-				total.setText(t+"");
+				total.setText(String.format("%.2f", t));
 			}
 		});
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -202,33 +203,34 @@ public class FacturaPanel extends JPanel {
 		add(resumenPanel, new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		save = new JButton("Guardar");
-		resumenPanel.add(save, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0));
+		resumenPanel.add(save, new GridBagConstraints(0, 0, 1, 2, 0.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Factura f = new Factura();
 				f.setId(id);
-				if (Calculos.getInstance().isNumeric(numFactura.getText())) {f.setNumFactura(Integer.parseInt(numFactura.getText()));}
-				f.setFecha(Calculos.getInstance().toSqlDate(fecha.getDate()));
+				if (Calculos.isNumeric(numFactura.getText())) {f.setNumFactura(Integer.parseInt(numFactura.getText()));}
+				f.setFecha(Calculos.toSqlDate(fecha.getDate()));
 				f.setIdCliente(((Cliente) cliente.getSelectedItem()).getIdCliente());
 				f.setPago(Data.PAGOBD[pago.getSelectedIndex()]);
-				f.setImporte(Double.parseDouble(total.getText()));
+				f.setImporte(Double.parseDouble(total.getText().replace(",", ".")));
 				f.setLocalidad(localidad.getText());
-				f.setViajes(((ViajesTableModel) table.getModel()).getViajes());
 				if (editable) {
+					f.setViajes(((ViajesTableModel) table.getModel()).getViajes());
+					f.setDelViajes(((ViajesTableModel) table.getModel()).getDelViajes());
+					f.setEditViajes(((ViajesTableModel) table.getModel()).getEditViajes());
+					f.setNewViajes(((ViajesTableModel) table.getModel()).getNewViajes());
 					MainController.getInstance().updateFactura(f, pos);
 				}
 				else {
+					f.setViajes(((ViajesTableModel) table.getModel()).getViajes());
 					MainController.getInstance().saveFactura(f);
 				}
 			}
 		});
 		
-		print = new JButton("Imprimir");
-		resumenPanel.add(print, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0));
-		
 		delete = new JButton("Cancelar");
-		resumenPanel.add(delete, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, insets, 0, 0));
+		resumenPanel.add(delete, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, insets, 0, 0));
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -242,11 +244,11 @@ public class FacturaPanel extends JPanel {
 		});
 		
 		lblTotal = new JLabel("TOTAL:");
-		resumenPanel.add(lblTotal, new GridBagConstraints(2, 2, 1, 1, 1.0, 1.0, GridBagConstraints.EAST, GridBagConstraints.CENTER, insets, 0, 0));
+		resumenPanel.add(lblTotal, new GridBagConstraints(2, 2, 1, 1, 1.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.CENTER, insets, 0, 0));
 		
-		total = new JTextField("0.0");
+		total = new JTextField(String.format("%.2f", 0.0));
 		total.setEditable(false);
-		resumenPanel.add(total, new GridBagConstraints(3, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
+		resumenPanel.add(total, new GridBagConstraints(3, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
 		pagoPanel = new JPanel(new GridBagLayout());
 		resumenPanel.add(pagoPanel, new GridBagConstraints(1, 0, 1, 3, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));

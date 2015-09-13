@@ -13,30 +13,34 @@ public class Calculos {
 		
 	}
 	
-	public String toSqlDate(Date date) {
+	public static String toSqlDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		String fecha = cal.get(Calendar.YEAR)+"-"+(cal.get(Calendar.MONTH)+1)+"-"+cal.get(Calendar.DAY_OF_MONTH);
 		return fecha;
 	}
 	
-	public int[] separateDate(String s) {
-		int[] i = new int[3];
+	public static String[] separateDate(String s) {
+		String[] i = new String[3];
 		int a = s.indexOf("-");
 		int b = s.indexOf("-", a+1);
-		i[0] = Integer.parseInt(s.substring(0, a));
-		i[1] = Integer.parseInt(s.substring(a+1, b))-1;
-		i[2] = Integer.parseInt(s.substring(b+1));
+		i[0] = s.substring(0, a);// year
+		int m = Integer.parseInt(s.substring(a+1, b))-1;// month
+		if (m > 0 && m < 9) {i[1] = "0"+m; }
+		else { i[1] = ""+m;}
+		int d = Integer.parseInt(s.substring(b+1));// day
+		if (d > 0 && d < 9) {i[2] = "0"+d; }
+		else { i[2] = ""+d;}
 		return i;
 	}
 	
-	public double calculaImporte(Viaje v) {
+	public static double calculaImporte(Viaje v) {
 		double precio = v.getPrecio();
-		double iva = (precio * v.getIva())/100;
+		double iva = v.getIva();
 		return precio + iva;
 	}
 	
-	public boolean isNumeric(String s) {
+	public static boolean isNumeric(String s) {
 		try {  
 			Double.parseDouble(s);  
 		}  
@@ -44,6 +48,26 @@ public class Calculos {
 		    return false;  
 		}  
 		return true;
+	}
+	
+	public static String numFacturaFormat(int num) {
+		return String.format("%010d", num);
+	}
+	
+	public static String priceFormat(double num) {
+		return String.format("%.2f", num)+" €";
+	}
+	
+	public static boolean isWindows(String os) {
+		return (os.indexOf("win") >= 0);
+	}
+
+	public static boolean isMac(String os) {
+		return (os.indexOf("mac") >= 0);
+	}
+
+	public static boolean isUnix(String os) {
+		return (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0 || os.indexOf("aix") > 0 );
 	}
 	
 	public static Calculos getInstance() {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import tanytrans.model.Cliente;
-import tanytrans.model.ClienteModel;
 import tanytrans.model.FacturaModel;
 
 public class Data {
@@ -18,19 +17,18 @@ public class Data {
 	public static final String[] PAGOBD = {"TF", "PL"};
 	public static final String LOCALIDAD_DEFAULT = "ESPAÑA";
 	
-	public static ArrayList<Cliente> clientes = ClienteModel.getInstance().consultaClientes();
+	public static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	private static int lastnumFactura = FacturaModel.getInstance().lastNumFactura();
 
 	public static void refreshNumFactura() {
 		lastnumFactura = FacturaModel.getInstance().lastNumFactura();
 	}
-	
-	public static void refrechClientes() {
-		clientes.clear();
-		clientes = ClienteModel.getInstance().consultaClientes();
-	}
 
 	public static int getLastnumFactura() {
 		return lastnumFactura;
+	}
+
+	public static void setClientes(ArrayList<Cliente> clientes) {
+		Data.clientes = clientes;
 	}
 }

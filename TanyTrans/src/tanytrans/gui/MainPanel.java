@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import tanytrans.controller.MainController;
+import tanytrans.model.Factura;
 import tanytrans.model.MiEmpresa;
 import tanytrans.tablemodel.ListaFacturasTableModel;
 
@@ -46,6 +48,11 @@ public class MainPanel extends JPanel {
 		email.setText(e.getEmail());
 	}
 	
+	public void loadFacturas(ArrayList<Factura> facturas) {
+		((ListaFacturasTableModel) table.getModel()).removeAllData();
+		((ListaFacturasTableModel) table.getModel()).setFacturas(facturas);
+	}
+	
 	private void setCenterPanel() {
 		right = new JPanel(new GridBagLayout());
 		add(right, BorderLayout.CENTER);
@@ -55,6 +62,8 @@ public class MainPanel extends JPanel {
 	
 		table = new JTable(new ListaFacturasTableModel());
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		table.setRowSelectionAllowed(false);
+		table.setCellSelectionEnabled(false);
 		right.add(scroll, new GridBagConstraints(0, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, insets, 0, 0));
 	}
 	
@@ -122,7 +131,13 @@ public class MainPanel extends JPanel {
 		
 		newCliente = new JButton("Nuevo Cliente");
 		left.add(newCliente, new GridBagConstraints(0, 2, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-	
+		newCliente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().newCliente();
+			}
+		});
+		
 		lblBuscar = new JLabel("Buscar");
 		left.add(lblBuscar, new GridBagConstraints(0, 3, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 		
@@ -137,17 +152,30 @@ public class MainPanel extends JPanel {
 		
 		buscarCliente = new JButton("Buscar Cliente");
 		left.add(buscarCliente, new GridBagConstraints(0, 5, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-	
+		buscarCliente.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().showClientes();
+			}
+		});
+		
 		lblHerr = new JLabel("Herramientas");
 		left.add(lblHerr, new GridBagConstraints(0, 6, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, insets, 0, 0));
 	
 		calc = new JButton("Calculadora");
 		left.add(calc, new GridBagConstraints(0, 7, 1, 1, 1.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, insets, 0, 0));
-		
+		calc.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().openCalc();
+			}
+		});
 		es = new JButton("ES");
+		es.setEnabled(false);
 		left.add(es, new GridBagConstraints(0, 8, 1, 1, 1.0, 1.0, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, insets, 0, 0));
 		
 		bg = new JButton("BG");
+		bg.setEnabled(false);
 		left.add(bg, new GridBagConstraints(1, 8, 1, 1, 0.0, 1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, insets, 0, 0));
 	}
 	

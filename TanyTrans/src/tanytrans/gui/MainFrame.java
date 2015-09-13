@@ -19,11 +19,12 @@ public class MainFrame extends JFrame {
 	private Dimension size;
 	private JMenuBar menuBar;
 	private JMenu menu1, menu2, menu3, menu4;
-	private JMenuItem item11, item21, item31, item41, item42;
+	private JMenuItem item11, item12, item21, item22, item31, item41, item42;
 	private CustomPanel contentPane;
 	private MainPanel panelPrincipal;
 	private FacturaPanel panelFactura;
 	private ListaPanel panelLista;
+	private ClientePanel panelCliente;
 	
 	public MainFrame(Dimension screensize) {
 		size = new Dimension((int) screensize.getWidth()*2/3, (int) screensize.getHeight()*2/3);
@@ -34,7 +35,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setSize(size);
-		setMinimumSize(new Dimension((int) screensize.getWidth()/2, (int) screensize.getHeight()/2));
+		setMinimumSize(new Dimension(1280, 720));
 		setMaximumSize(screensize);
 		setResizable(true);
 		setLocationRelativeTo(null);
@@ -56,6 +57,9 @@ public class MainFrame extends JFrame {
 		
 		panelLista = new ListaPanel();
 		getContentPane().add(ListaPanel.NAME, panelLista);
+		
+		panelCliente = new ClientePanel();
+		getContentPane().add(ClientePanel.NAME, panelCliente);
 	}
 	
 	private void setMenu() {
@@ -74,7 +78,16 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		menu2 = new JMenu("Lista");
+		item12 = new JMenuItem("Nuevo cliente");
+		menu1.add(item12);
+		item12.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().newCliente();
+			}
+		});
+		
+		menu2 = new JMenu("Buscar");
 		menuBar.add(menu2);
 		
 		item21 = new JMenuItem("Facturas");
@@ -86,11 +99,26 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		item22 = new JMenuItem("Clientes");
+		menu2.add(item22);
+		item22.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().showClientes();
+			}
+		});
+		
 		menu3 = new JMenu("Herramientas");
 		menuBar.add(menu3);
 		
 		item31 = new JMenuItem("Calculadora");
 		menu3.add(item31);
+		item31.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainController.getInstance().openCalc();
+			}
+		});
 		
 		menu4 = new JMenu("Ajustes");
 		menuBar.add(menu4);
@@ -118,6 +146,10 @@ public class MainFrame extends JFrame {
 
 	public ListaPanel getPanelLista() {
 		return panelLista;
+	}
+
+	public ClientePanel getPanelCliente() {
+		return panelCliente;
 	}
 
 }

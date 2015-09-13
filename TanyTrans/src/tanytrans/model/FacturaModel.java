@@ -47,10 +47,30 @@ public class FacturaModel {
 	}
 	
 	public ArrayList<Factura> consultaFacturasDia(Date inicio, Date fin) throws SQLException {
-		String fechaInicio = Calculos.getInstance().toSqlDate(inicio);
-		String fechaFin = Calculos.getInstance().toSqlDate(fin);
+		String fechaInicio = Calculos.toSqlDate(inicio);
+		String fechaFin = Calculos.toSqlDate(fin);
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
 		String consulta = "select * from facturas where fecha between '"+fechaInicio+"' and '"+fechaFin+"';";
+		ResultSet r = conexion.createStatement().executeQuery(consulta);
+		while (r.next()){
+			int id = r.getInt(ID);
+			int numFactura = r.getInt(NUM);
+			String fecha = r.getDate(FECHA).toString();
+			double importe = r.getDouble(IMPORTE);
+			String pago = r.getString(PAGO);
+			int idCliente = r.getInt(CLIENTE);
+			String loc = r.getString(LOC);
+			Factura f = new Factura(id, numFactura, idCliente, importe, pago, fecha, loc);
+			ArrayList<Viaje> v = ViajeModel.getInstance().consultaViajesFactura(numFactura);
+			f.setViajes(v);
+			facturas.add(f);
+		}
+		return facturas;
+	}
+	
+	public ArrayList<Factura> consultaFacturas() throws SQLException {
+		ArrayList<Factura> facturas = new ArrayList<Factura>();
+		String consulta = "select * from facturas order by numFactura desc limit 10;";
 		ResultSet r = conexion.createStatement().executeQuery(consulta);
 		while (r.next()){
 			int id = r.getInt(ID);
@@ -104,6 +124,13 @@ public class FacturaModel {
 		p.setString(4, f.getPago());
 		p.setInt(5, f.getIdCliente());
 		p.setString(6, f.getLocalidad());
+		p.executeUpdate();
+	}
+	
+	public void deleteFactura(Factura f) throws SQLException {
+		String delete = "delete from facturas where id = ?;";
+		PreparedStatement p = conexion.prepareStatement(delete);
+		p.setInt(1, f.getId());
 		p.executeUpdate();
 	}
 	
