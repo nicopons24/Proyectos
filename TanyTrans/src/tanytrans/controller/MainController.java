@@ -1,6 +1,7 @@
 package tanytrans.controller;
 
 import java.awt.CardLayout;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -112,6 +113,21 @@ public class MainController {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ventanaPrincipal, e.getMessage(), ventanaPrincipal.getTitle(), JOptionPane.ERROR_MESSAGE);
 		}
+		int o = JOptionPane.showConfirmDialog(ventanaPrincipal, "Exportar factura a pdf?", ventanaPrincipal.getTitle(), JOptionPane.YES_NO_OPTION);
+		switch (o) {
+		case 0:
+			Cliente c = null;
+			for (Cliente cl:Data.clientes) {
+				if (f.getIdCliente() == cl.getIdCliente()) {
+					c = cl;
+					break;
+				}
+			}
+			MainController.getInstance().printFactura(f, c);
+			break;
+		case 1:
+			break;
+		}
 	}
 	
 	public void updateFactura(Factura f, int row) {
@@ -132,16 +148,30 @@ public class MainController {
 					modeloViajes.deleteViajes(v);
 				}
 				ConexionBD.getInstance().getConnection().commit();
-				JOptionPane.showMessageDialog(ventanaPrincipal, "Factura actualizada correctamente", ventanaPrincipal.getTitle(), JOptionPane.INFORMATION_MESSAGE);
 				((ListaFacturasTableModel) ventanaPrincipal.getPanelLista().getTableModel()).setFacturaAt(row, f);
-				showList();
 			} catch (SQLException e) {
 				JOptionPane.showMessageDialog(ventanaPrincipal, e.getMessage(), ventanaPrincipal.getTitle(), JOptionPane.ERROR_MESSAGE);
+			}
+			o = JOptionPane.showConfirmDialog(ventanaPrincipal, "Guardar Factura"+f.getNumFacturaString()+" como pdf?", ventanaPrincipal.getTitle(), JOptionPane.YES_NO_OPTION);
+			switch (o) {
+			case 0:
+				Cliente c = null;
+				for (Cliente cl:Data.clientes) {
+					if (f.getIdCliente() == cl.getIdCliente()) {
+						c = cl;
+						break;
+					}
+				}
+				MainController.getInstance().printFactura(f, c);
+				break;
+			case 1:
+				break;
 			}
 			break;
 		case 1:
 			break;
 		}
+		showList();
 	}
 	
 	public void deleteFactura(Factura f, int row) {
@@ -269,7 +299,7 @@ public class MainController {
 		InputStream template = getClass().getResourceAsStream("/tanytrans/reports/gui/TanytransFactura.jasper");
 		FacturaDatasource dataSource = new FacturaDatasource(f, c);
 	    JFileChooser chooser = openFileChooser("Factura"+f.getNumFacturaString());
-	    int selection = chooser.showOpenDialog(ventanaPrincipal);
+	    int selection = chooser.showSaveDialog(ventanaPrincipal);
         switch (selection) {
         case JFileChooser.APPROVE_OPTION:
         	File file = chooser.getSelectedFile();
@@ -310,10 +340,12 @@ public class MainController {
 	        exporter.setParameter(JRExporterParameter.OUTPUT_FILE, file); 
 	        exporter.exportReport();
 	        JOptionPane.showMessageDialog(ventanaPrincipal, file.getName()+" guardado correctamente", ventanaPrincipal.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+	        Desktop.getDesktop().open(file);
 		} catch (JRException e) {
 			JOptionPane.showMessageDialog(ventanaPrincipal, "No se pudo crear el pdf", ventanaPrincipal.getTitle(), JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(ventanaPrincipal, "No se pudo abrir "+file.getName(), ventanaPrincipal.getTitle(), JOptionPane.ERROR_MESSAGE);
 		}
-		
 	}
 	
 	private JFileChooser openFileChooser(String fileName) {
